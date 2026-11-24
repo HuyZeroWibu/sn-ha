@@ -1,109 +1,689 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#000000">
-<title>Chúc mừng sinh nhật Vũ Khánh Hà 🎂</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#090611" />
+  <title>Chúc Mừng Sinh Nhật Vũ Khánh Hà (29/11/2011)</title>
+  <style>
+    :root {
+      --bg-dark: #090611;
+      --aurora-1: rgba(145, 24, 66, 0.34);
+      --aurora-2: rgba(255, 196, 87, 0.18);
+      --aurora-3: rgba(24, 48, 118, 0.32);
+      --pink: #ff69b4;
+      --pink-soft: #ff9ed2;
+      --gold-1: #ffe599;
+      --gold-2: #ffffff;
+      --gold-3: #ffd166;
+      --glass-bg: rgba(24, 15, 40, 0.86);
+      --glass-border: rgba(255, 255, 255, 0.24);
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-dark); color: #fff;
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+    [hidden] { display: none !important; }
+
+    .aurora-layer { position: fixed; inset: -15%; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 25%, var(--aurora-1), transparent 48%),
+        radial-gradient(circle at 78% 30%, var(--aurora-2), transparent 45%),
+        radial-gradient(circle at 50% 82%, var(--aurora-3), transparent 52%);
+      filter: blur(28px); animation: auroraDrift 18s ease-in-out infinite alternate; will-change: transform; }
+    @keyframes auroraDrift {
+      0% { transform: translate3d(-2%, -2%, 0) scale(1); }
+      50% { transform: translate3d(2.5%, 1.5%, 0) scale(1.05); }
+      100% { transform: translate3d(-1.5%, 2.5%, 0) scale(1.02); }
+    }
+    canvas.fx { position: fixed; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+    #bgCanvas { z-index: 1; }
+    #burstCanvas { z-index: 40; }
+
+    .top-controls { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 14px); right: 14px; z-index: 25;
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .glass-btn { position: relative; overflow: hidden; color: #fff; padding: 10px 16px; border-radius: 999px;
+      font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, rgba(58, 40, 88, 0.88), rgba(30, 20, 52, 0.9));
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease; }
+    .glass-btn::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.25s;
+      background: radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.28), transparent 60%); }
+    .glass-btn::after { content: ""; position: absolute; top: -60%; left: -80%; width: 55%; height: 220%; pointer-events: none;
+      background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transform: skewX(-20deg); transition: left 0.55s ease; }
+    .glass-btn:hover { transform: translateY(-4px) scale(1.06); box-shadow: 0 16px 32px rgba(255, 105, 180, 0.28), 0 8px 20px rgba(0, 0, 0, 0.45); }
+    .glass-btn:hover::before { opacity: 1; }
+    .glass-btn:hover::after { left: 135%; }
+    .glass-btn:active { transform: translateY(0) scale(0.96); }
+    .glass-btn:disabled { opacity: 0.45; pointer-events: none; }
+    .glass-btn:focus-visible, .open-card-btn:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid var(--gold-1); outline-offset: 3px; }
+    .ripple { position: absolute; border-radius: 50%; transform: scale(0); background: rgba(255, 255, 255, 0.45);
+      animation: rippleAnim 0.6s ease-out forwards; pointer-events: none; }
+    @keyframes rippleAnim { to { transform: scale(3.6); opacity: 0; } }
+
+    .open-card-btn { padding: 14px 30px; font: inherit; font-size: 16px; font-weight: 700; color: #fff; cursor: pointer;
+      border-radius: 999px; border: 1px solid rgba(255, 225, 153, 0.6); position: relative; overflow: hidden;
+      background: linear-gradient(135deg, rgba(190, 45, 110, 0.9), rgba(160, 110, 40, 0.88));
+      box-shadow: 0 0 26px rgba(255, 105, 180, 0.45); transition: transform 0.22s ease, box-shadow 0.22s ease; }
+    .open-card-btn:hover { animation: eagerWiggle 0.45s ease-in-out infinite; box-shadow: 0 0 34px rgba(255, 209, 102, 0.6); }
+    .open-card-btn:active { animation: none; transform: scale(0.96); }
+    @keyframes eagerWiggle {
+      0%, 100% { transform: translateY(-4px) scale(1.07) rotate(0deg); }
+      25% { transform: translateY(-5px) scale(1.08) rotate(-2deg); }
+      75% { transform: translateY(-5px) scale(1.08) rotate(2deg); }
+    }
+
+    .scene { position: fixed; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 20px; opacity: 0; pointer-events: none; transform: scale(1.06);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+    .scene.on { opacity: 1; pointer-events: auto; transform: none; }
+    .gate-btn { background: none; border: 0; color: #ddd; font: inherit; font-size: 15px; padding: 26px; cursor: pointer; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: 0.45; } }
+
+    .env-wrap { display: flex; flex-direction: column; align-items: center; gap: 26px; }
+    .env-float { animation: envFloat 3.6s ease-in-out infinite; }
+    @keyframes envFloat { 50% { transform: translateY(-10px) rotate(-1deg); } }
+    .env-hint { color: var(--pink-soft); font-size: 14px; letter-spacing: 0.05em; }
+    .envelope { position: relative; width: min(76vw, 320px); aspect-ratio: 1.45; perspective: 900px; cursor: pointer;
+      filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 26px rgba(255, 90, 150, 0.35)); transition: transform 0.25s; }
+    .envelope:hover { transform: scale(1.04); }
+    .env-back { position: absolute; inset: 0; background: linear-gradient(160deg, #d94b7d, #a82552); border-radius: 12px; }
+    .env-letter { position: absolute; left: 9%; right: 9%; top: 10%; height: 82%; z-index: 1; border-radius: 8px; padding: 12px;
+      background: linear-gradient(#fffaf0, #ffe3ec); color: #b0295a; font-weight: 800; font-size: clamp(14px, 4vw, 18px);
+      display: flex; align-items: flex-start; justify-content: center; text-align: center;
+      transition: transform 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) 0.45s; }
+    .env-front { position: absolute; inset: 0; z-index: 2; border-radius: 12px; background: linear-gradient(160deg, #ee6a97, #c2305f);
+      clip-path: polygon(0 0, 50% 54%, 100% 0, 100% 100%, 0 100%); }
+    .env-flap { position: absolute; left: 0; right: 0; top: 0; height: 54%; z-index: 3; background: linear-gradient(#f27aa3, #de4f82);
+      clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top center; border-radius: 12px 12px 0 0;
+      transition: transform 0.7s ease, z-index 0s 0.35s; }
+    .env-seal { position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); z-index: 4; font-size: 34px; transition: opacity 0.3s;
+      animation: sealBeat 1.2s ease-in-out infinite; }
+    @keyframes sealBeat { 50% { transform: translate(-50%, -50%) scale(1.18); } }
+    .envelope.open .env-flap { transform: rotateX(180deg); z-index: 0; }
+    .envelope.open .env-letter { transform: translateY(-62%); }
+    .envelope.open .env-seal { opacity: 0; animation: none; }
+
+    #celebrationScreen { justify-content: flex-start; overflow-y: auto; overflow-x: hidden; padding: 0; }
+    .cel-inner { margin: auto; width: 100%; display: flex; flex-direction: column; align-items: center;
+      padding: calc(env(safe-area-inset-top, 0px) + 66px) 16px calc(env(safe-area-inset-bottom, 0px) + 28px); }
+    .title-gradient { font-size: clamp(26px, 5.2vw, 48px); font-weight: 800; text-align: center;
+      background: linear-gradient(90deg, var(--gold-1), var(--gold-2), var(--gold-3)); -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: titlePulse 3s ease-in-out infinite; }
+    @keyframes titlePulse { 0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 225, 153, 0.35)); } 50% { filter: drop-shadow(0 0 20px rgba(255, 180, 220, 0.65)); } }
+    .subtitle-date { margin-top: 6px; font-size: 14px; color: var(--pink-soft); letter-spacing: 1px; }
+    .day-line { margin-top: 6px; font-size: 15px; font-weight: 700; color: var(--gold-1); letter-spacing: 0.04em; }
+    .cake-scene { margin: 8px 0 4px; cursor: pointer; user-select: none; -webkit-user-select: none; }
+    .cake-scene img { display: block; width: min(64vw, 300px); max-height: 34vh; object-fit: contain;
+      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.45)); transition: transform 0.2s; }
+    .cake-scene.hop img { animation: hop 0.5s ease; }
+    @keyframes hop { 30% { transform: translateY(-14px) scale(1.06, 0.95); } 60% { transform: translateY(0) scale(0.97, 1.04); } }
+    .cat-hint { font-size: 12px; color: rgba(255, 255, 255, 0.55); margin-bottom: 6px; }
+
+    .book-wrapper { width: min(560px, 94vw); perspective: 1400px; margin-top: 8px; }
+    .tilt { transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.18s ease-out; transform-style: preserve-3d; }
+    .glass-card { position: relative; overflow: hidden; background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px 26px; text-align: left;
+      box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 255, 255, 0.28); transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease; touch-action: pan-y; }
+    .glass-card::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(260px circle at var(--mx, 30%) var(--my, 0%), rgba(255, 255, 255, 0.16), transparent 65%); }
+    .glass-card.flipping { transform: rotateY(90deg) scale(0.97); opacity: 0.4; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--gold-1); margin-bottom: 12px; opacity: 0.95; }
+    .letter-text { min-height: 128px; font-size: clamp(15px, 2.3vw, 17px); line-height: 1.72; color: #fdf8ff; white-space: pre-line; }
+    .letter-text .rest { opacity: 0; }
+    .card-nav { margin-top: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .dots { display: flex; gap: 7px; }
+    .dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transition: all 0.3s; }
+    .dots i.on { width: 22px; border-radius: 6px; background: var(--pink); }
+
+    .settings-drawer { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 62px); right: 14px; z-index: 26; width: min(310px, 90vw);
+      background: rgba(18, 12, 30, 0.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.24); border-radius: 20px; padding: 18px; box-shadow: var(--shadow-soft);
+      transform: translateX(120%); opacity: 0; pointer-events: none; transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease; }
+    .settings-drawer.open { transform: none; opacity: 1; pointer-events: auto; }
+    .settings-drawer h3 { font-size: 15px; margin-bottom: 12px; color: var(--gold-1); }
+    .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13.5px; gap: 10px; }
+    .setting-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: #ff69b4; }
+    .setting-row select { background: rgba(255, 255, 255, 0.14); color: #fff; border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 8px; padding: 5px 8px; font: inherit; }
+    .setting-row select option { background: #171026; color: #fff; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .aurora-layer, .env-float, .env-seal, .title-gradient, .gate-btn { animation: none; }
+    }
+  </style>
 </head>
 <body>
+  <div class="aurora-layer"></div>
+  <canvas id="bgCanvas" class="fx"></canvas>
+  <canvas id="burstCanvas" class="fx"></canvas>
 
-<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
-<canvas id="fx" aria-hidden="true"></canvas>
-<div id="yt" aria-hidden="true"></div>
-
-<!-- Thanh trên cùng -->
-<header class="topbar">
-  <button class="btn sm" id="skipBtn" hidden>Bỏ qua ⏭</button>
-  <button class="btn sm" id="replayBtn" hidden>Xem lại ↺</button>
-  <span class="grow"></span>
-  <button class="btn sm" id="soundBtn" aria-pressed="true">Âm thanh: Bật</button>
-  <button class="btn sm icon" id="gearBtn" aria-label="Cài đặt">⚙</button>
-</header>
-
-<!-- Cổng bắt đầu (cần 1 lần chạm để trình duyệt cho phép âm thanh) -->
-<section class="stage on" id="gate">
-  <button class="gate-btn" id="gateBtn">Chạm vào đây để bắt đầu 🎁</button>
-</section>
-
-<!-- Màn mở đầu -->
-<section class="stage" id="intro">
-  <button class="btn main shake" id="openBtn" hidden>Mở Thiệp Cho Vũ Khánh Hà</button>
-</section>
-
-<!-- Màn chúc mừng -->
-<section class="stage" id="celebrate">
-  <div class="scroll">
-    <h1 class="title" id="title"></h1>
-    <p class="sub" id="sub"></p>
-
-    <svg class="cats" viewBox="0 0 300 230" role="img" aria-label="Hai chú mèo trắng bên bánh kem sinh nhật">
-      <g id="catL">
-        <polygon points="72,78 80,44 102,66" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-        <polygon points="72,78 79,54 92,68" fill="#ffc4d8"/>
-        <polygon points="138,70 134,40 112,62" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-        <circle cx="105" cy="102" r="42" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-        <path d="M86 96 q6 -9 12 0 M114 96 q6 -9 12 0" stroke="#4a3b4a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-        <path d="M94 108 q11 22 22 0 z" fill="#ff8aa8" stroke="#4a3b4a" stroke-width="2.5" stroke-linejoin="round"/>
-        <circle cx="80" cy="108" r="6" fill="#ffb3cf" opacity=".7"/><circle cx="130" cy="108" r="6" fill="#ffb3cf" opacity=".7"/>
-      </g>
-      <g id="catR">
-        <polygon points="238,76 232,44 212,66" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-        <polygon points="172,70 178,44 198,64" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-        <circle cx="205" cy="104" r="40" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-        <polygon points="205,30 184,68 226,68" fill="#6fb5ff" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
-        <circle cx="205" cy="28" r="6" fill="#ffd54a"/>
-        <path d="M188 98 q6 -9 12 0 M212 98 q6 -9 12 0" stroke="#4a3b4a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-        <path d="M195 110 q10 20 20 0 z" fill="#ff8aa8" stroke="#4a3b4a" stroke-width="2.5" stroke-linejoin="round"/>
-        <circle cx="182" cy="110" r="6" fill="#ffb3cf" opacity=".7"/><circle cx="228" cy="110" r="6" fill="#ffb3cf" opacity=".7"/>
-      </g>
-      <!-- bánh kem -->
-      <rect x="50" y="138" width="200" height="76" rx="12" fill="#fff1c9"/>
-      <rect x="50" y="130" width="200" height="30" rx="15" fill="#ff9fc3"/>
-      <g fill="#ff9fc3"><circle cx="80" cy="162" r="8"/><circle cx="130" cy="166" r="9"/><circle cx="178" cy="162" r="8"/><circle cx="222" cy="165" r="9"/></g>
-      <rect x="146" y="96" width="8" height="36" rx="3" fill="#7fd1ff"/>
-      <ellipse class="flame" cx="150" cy="88" rx="6" ry="10" fill="#ffb02e"/>
-      <ellipse cx="86" cy="148" rx="13" ry="9" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-      <ellipse cx="124" cy="148" rx="13" ry="9" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-      <ellipse cx="178" cy="148" rx="13" ry="9" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-      <ellipse cx="216" cy="148" rx="13" ry="9" fill="#fff" stroke="#e6dce6" stroke-width="2"/>
-    </svg>
-
-    <article class="letter-wrap" id="bookWrap">
-      <div class="glass letter" id="letter">
-        <h2 id="pgTitle"></h2>
-        <div id="pgText"></div>
-      </div>
-      <nav class="pager">
-        <button class="btn sm" id="prevBtn">‹ Trang trước</button>
-        <span id="pgNum"></span>
-        <button class="btn sm" id="nextBtn">Trang tiếp ›</button>
-      </nav>
-    </article>
+  <div class="top-controls">
+    <button class="glass-btn" id="soundToggleBtn" type="button">🔊 Âm thanh: Bật</button>
+    <button class="glass-btn" id="skipBtn" type="button" style="display:none">⏭ Bỏ qua</button>
+    <button class="glass-btn" id="settingsBtn" type="button">⚙ Tùy chỉnh</button>
   </div>
-</section>
 
-<!-- Cài đặt -->
-<aside class="glass panel" id="panel" hidden>
-  <h3>Cài đặt</h3>
-  <label class="row"><span>Sách kỷ niệm</span><input type="checkbox" id="optBook"></label>
-  <label class="row"><span>Nhạc nền</span><input type="checkbox" id="optMusic"></label>
-  <label class="row"><span>Confetti khi chạm</span><input type="checkbox" id="optConfetti"></label>
-  <label class="row"><span>Màu mưa chữ</span>
-    <select id="optRain">
-      <option value="#ff2d95">Hồng</option>
-      <option value="#b36bff">Tím</option>
-      <option value="#3fd0ff">Xanh</option>
-      <option value="#ffcf4d">Vàng</option>
-    </select>
-  </label>
-  <button class="btn sm" id="closePanel">Đóng</button>
-</aside>
+  <aside class="settings-drawer" id="settingsDrawer">
+    <h3>Tùy Chỉnh Nhẹ Cho Thiệp</h3>
+    <div class="setting-row"><label for="matrixColorSelect">Màu mưa chữ</label>
+      <select id="matrixColorSelect">
+        <option value="#ff69b4">Hồng ngọt ngào</option>
+        <option value="#7dd3fc">Xanh dương mát mẻ</option>
+        <option value="#c084fc">Tím mộng mơ</option>
+        <option value="#ffd166">Vàng ấm áp</option>
+      </select></div>
+    <div class="setting-row"><label for="musicToggle">Nhạc nền</label><input type="checkbox" id="musicToggle" checked /></div>
+    <div class="setting-row"><label for="bookToggle">Sách kỷ niệm (lật trang)</label><input type="checkbox" id="bookToggle" checked /></div>
+    <div class="setting-row"><label for="burstToggle">Hạt & confetti khi chạm</label><input type="checkbox" id="burstToggle" checked /></div>
+    <button class="glass-btn" id="replayBtn" type="button" style="width:100%; margin-top:6px;">↻ Xem lại từ đầu</button>
+  </aside>
 
-<script src="script.js"></script>
+  <section class="scene on" id="gate">
+    <button class="gate-btn" id="gateBtn" type="button">🎁 Chạm vào đây để bắt đầu</button>
+  </section>
+
+  <section class="scene" id="intro" aria-live="polite"></section>
+
+  <section class="scene" id="envelopeStage">
+    <div class="env-wrap">
+      <div class="env-float">
+        <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Phong bì thiệp">
+          <div class="env-back"></div>
+          <div class="env-letter">💌 Dành riêng cho<br>Vũ Khánh Hà</div>
+          <div class="env-front"></div>
+          <div class="env-flap"></div>
+          <div class="env-seal">💗</div>
+        </div>
+      </div>
+      <button class="open-card-btn" id="openGiftBtn" type="button">🌹 Mở Thiệp Cho Vũ Khánh Hà</button>
+      <div class="env-hint">Chạm vào phong bì hoặc nút để mở</div>
+    </div>
+  </section>
+
+  <main class="scene" id="celebrationScreen">
+    <div class="cel-inner">
+      <h1 class="title-gradient">Happy Birthday, Vũ Khánh Hà!</h1>
+      <div class="subtitle-date">✨ Sinh nhật 29/11/2011 • Tuổi mới rực rỡ & bình yên ✨</div>
+      <div class="day-line" id="dayLine"></div>
+
+      <div class="cake-scene" id="cakeScene" title="Chạm vào mèo nhé">
+        <picture>
+          <source srcset="assets/cats.webp" type="image/webp" />
+          <img src="assets/cats.gif" alt="Hai chú mèo trắng úp bánh kem sinh nhật" draggable="false" />
+        </picture>
+      </div>
+      <div class="cat-hint">chạm vào mèo thử xem 🐱</div>
+
+      <div class="book-wrapper" id="bookWrapper">
+        <div class="tilt" id="tilt">
+          <div class="glass-card" id="letterCard">
+            <div class="page-header"><span id="pageIndicator">Trang 1 / 3</span><span>Dành riêng cho Vũ Khánh Hà</span></div>
+            <div class="letter-text" id="letterText"></div>
+            <div class="card-nav">
+              <button class="glass-btn" id="prevPageBtn" type="button">← Trước</button>
+              <div class="dots" id="dots" aria-hidden="true"></div>
+              <button class="glass-btn" id="nextPageBtn" type="button">Tiếp →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    /* =====================================================
+       CONFIG — chỉnh tên, ngày sinh, lời chúc, nhạc ở đây
+       ===================================================== */
+    const CONFIG = {
+      recipientName: "Vũ Khánh Hà",
+      birthDate: "29/11/2011",
+      birthDay: 29, birthMonth: 11,
+      countdownSeconds: 3,
+      words: ["HAPPY", "BIRTHDAY", "TO", "YOU"],
+      matrixChars: "HAPPYBIRTHDAY29112011♥★✦",
+      matrixColor: "#ff69b4",
+      // 🎵 ĐỔI Ở ĐÂY: đường dẫn tới file MP3
+      // - Nếu để cùng thư mục index.html: "nhac.mp3"
+      // - Nếu để trong thư mục assets: "assets/nhac.mp3"
+      musicFile: "assets/nhac.mp3",
+      letterPages: [
+        "Gửi Vũ Khánh Hà,\n\nChúc mừng sinh nhật bạn tròn tuổi mới (29/11/2011)! Chúc ngày hôm nay của Khánh Hà tràn ngập tiếng cười, những món quà xinh xắn và thật nhiều niềm vui nhỏ bé đáng yêu.",
+        "Mong rằng chặng đường sắp tới của Khánh Hà sẽ luôn suôn sẻ, học tập thật tốt, giữ mãi sự tự tin và năng lượng tích cực để chạm tới những điều bạn mong ước.",
+        "Một lần nữa, chúc Vũ Khánh Hà có một sinh nhật thật ấm áp, đáng nhớ và một năm mới rực rỡ theo cách riêng của bạn! 🎂💖"
+      ]
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let S = { music: true, book: true, burst: true, color: CONFIG.matrixColor };
+    try { Object.assign(S, JSON.parse(localStorage.getItem("bdayHa") || "{}")); } catch (e) {}
+    const saveS = () => { try { localStorage.setItem("bdayHa", JSON.stringify(S)); } catch (e) {} };
+
+    /* ---------- Âm thanh Web Audio (giữ nguyên) ---------- */
+    const AudioFX = (() => {
+      let ctx = null, enabled = true;
+      function ensureCtx() {
+        if (!enabled) return null;
+        if (!ctx) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) ctx = new AC(); }
+        if (ctx && ctx.state === "suspended") ctx.resume().catch(() => {});
+        return ctx;
+      }
+      function playTone(freq, duration = 0.14, type = "sine", gainVal = 0.08) {
+        const ac = ensureCtx(); if (!ac) return;
+        const now = ac.currentTime, osc = ac.createOscillator(), gain = ac.createGain();
+        osc.type = type; osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(gainVal, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        osc.connect(gain); gain.connect(ac.destination); osc.start(now); osc.stop(now + duration + 0.02);
+      }
+      return {
+        click() { playTone(660, 0.09, "sine", 0.06); },
+        countdown() { playTone(520, 0.12, "triangle", 0.05); },
+        pageFlip() { playTone(587.33, 0.11, "sine", 0.06); setTimeout(() => playTone(880, 0.16, "sine", 0.05), 70); },
+        open() { [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => setTimeout(() => playTone(f, 0.42, "sine", 0.06), i * 110)); },
+        meow() {
+          const ac = ensureCtx(); if (!ac) return;
+          const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
+          o.type = "triangle"; o.frequency.setValueAtTime(620, t);
+          o.frequency.exponentialRampToValueAtTime(900, t + 0.12); o.frequency.exponentialRampToValueAtTime(480, t + 0.4);
+          g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.08, t + 0.05); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.42);
+          o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + 0.45);
+        },
+        setEnabled(v) { enabled = v; }, isEnabled() { return enabled; }
+      };
+    })();
+
+    /* =========================================================
+       🎵 NHẠC NỀN MP3 (THAY THẾ YOUTUBE)
+       ========================================================= */
+    let audio = null;            // thẻ Audio
+    let audioReady = false;      // đã load xong file chưa
+    let audioFailed = false;     // load lỗi
+    let started = false;         // người dùng đã bấm "Bắt đầu" chưa
+
+    function initMusic() {
+      audio = new Audio();
+      audio.loop = true;
+      audio.volume = 0.55;
+      audio.preload = "auto";
+
+      // Thành công: đánh dấu sẵn sàng
+      audio.addEventListener("canplaythrough", () => {
+        audioReady = true;
+        console.log("✅ Đã tải xong nhạc:", CONFIG.musicFile);
+        syncMusic();
+      });
+
+      // Lỗi: báo rõ cho người dùng
+      audio.addEventListener("error", () => {
+        audioFailed = true;
+        console.error("❌ Không tải được nhạc:", CONFIG.musicFile);
+        // Chỉ cảnh báo nếu người dùng đã bấm bắt đầu
+        if (started) {
+          alert(
+            "Không tìm thấy file nhạc!\n\n" +
+            "Đang tìm: " + CONFIG.musicFile + "\n\n" +
+            "Kiểm tra:\n" +
+            "1. File MP3 đã upload chưa?\n" +
+            "2. Đúng tên & đúng thư mục chưa?\n" +
+            "3. Đường dẫn trong CONFIG.musicFile đúng chưa?"
+          );
+        }
+      });
+
+      audio.src = CONFIG.musicFile;
+    }
+
+    function syncMusic() {
+      if (!audio) return;
+      if (!started) return;                 // chưa bấm bắt đầu thì chưa phát
+      if (audioFailed) return;
+      if (!audioReady) return;              // chưa load xong
+
+      if (AudioFX.isEnabled() && S.music) {
+        const p = audio.play();
+        if (p && p.catch) {
+          p.catch((err) => {
+            // Trình duyệt chặn autoplay → thử lại khi có tương tác
+            console.warn("Autoplay bị chặn, chờ tương tác:", err);
+          });
+        }
+      } else {
+        audio.pause();
+      }
+    }
+
+    // Khởi tạo ngay (chưa phát, chỉ load trước)
+    initMusic();
+
+    /* ---------- Ripple + glow theo con trỏ ---------- */
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("button"); if (!btn) return;
+      AudioFX.click();
+      const r = btn.getBoundingClientRect(), size = Math.max(r.width, r.height), el = document.createElement("span");
+      el.className = "ripple"; el.style.width = el.style.height = size + "px";
+      el.style.left = e.clientX - r.left - size / 2 + "px"; el.style.top = e.clientY - r.top - size / 2 + "px";
+      btn.appendChild(el); el.addEventListener("animationend", () => el.remove());
+    });
+    document.addEventListener("pointermove", (e) => {
+      const b = e.target.closest && e.target.closest(".glass-btn"); if (!b) return;
+      const r = b.getBoundingClientRect(); b.style.setProperty("--mx", e.clientX - r.left + "px"); b.style.setProperty("--my", e.clientY - r.top + "px");
+    });
+
+    /* =====================================================
+       CANVAS NỀN + HIỆU ỨNG (giữ nguyên toàn bộ)
+       ===================================================== */
+    const bg = $("bgCanvas"), bctx = bg.getContext("2d");
+    const burst = $("burstCanvas"), kctx = burst.getContext("2d");
+    const off = document.createElement("canvas"), octx = off.getContext("2d", { willReadFrequently: true });
+    let W = 0, H = 0, FS = 16, colW = 14, cols = [], glyphs = [...CONFIG.matrixChars], cell = 22, atlas, atlasHead;
+    let mAlpha = 1, mTarget = 1, T = 0;
+    let floaters = [];
+
+    function buildAtlas() {
+      cell = Math.ceil(FS * 1.5);
+      const make = (color) => {
+        const c = document.createElement("canvas"); c.width = cell * glyphs.length; c.height = cell;
+        const x = c.getContext("2d"); x.font = `700 ${FS}px monospace`; x.textAlign = "center"; x.textBaseline = "middle"; x.fillStyle = color;
+        glyphs.forEach((g, i) => x.fillText(g, i * cell + cell / 2, cell / 2)); return c;
+      };
+      atlas = make(S.color); atlasHead = make("#ffe3f2");
+    }
+    function newCol(first) { return { y: first ? -Math.random() * 40 : -Math.random() * 8, v: 0.3 + Math.random() * 0.18, len: 20 + Math.floor(Math.random() * 18) }; }
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = innerWidth; H = innerHeight;
+      [bg, burst].forEach((c) => { c.width = Math.floor(W * dpr); c.height = Math.floor(H * dpr); c.getContext("2d").setTransform(dpr, 0, 0, dpr, 0, 0); });
+      FS = W < 600 ? 15 : 17; colW = FS * 0.85;
+      buildAtlas();
+      cols = Array.from({ length: Math.ceil(W / colW) }, () => newCol(true));
+      floaters = Array.from({ length: W < 600 ? 26 : 38 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 1.3 + Math.random() * 2.3,
+        vx: (Math.random() - 0.5) * 0.35, vy: -0.2 - Math.random() * 0.4, a: 0.25 + Math.random() * 0.5 }));
+    }
+
+    function drawMatrix() {
+      mAlpha += (mTarget - mAlpha) * 0.04;
+      for (let i = 0; i < cols.length; i++) {
+        const c = cols[i], x = i * colW + colW / 2 - cell / 2, head = Math.floor(c.y);
+        for (let k = 0; k < c.len; k++) {
+          const row = head - k, py = row * FS; if (py < -FS) continue; if (py > H + FS) continue;
+          bctx.globalAlpha = Math.pow(1 - k / c.len, 1.25) * 0.85 * mAlpha;
+          const gi = (((i * 7 + row * 3) % glyphs.length) + glyphs.length) % glyphs.length;
+          bctx.drawImage(k === 0 ? atlasHead : atlas, gi * cell, 0, cell, cell, x, py - cell / 2, cell, cell);
+        }
+        c.y += c.v;
+        if ((c.y - c.len) * FS > H) cols[i] = newCol(false);
+      }
+      bctx.globalAlpha = 1;
+    }
+    function drawFloaters() {
+      bctx.fillStyle = "#ffd7f0";
+      for (const p of floaters) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.y < -10) p.y = H + 10; if (p.x < -10) p.x = W + 10; if (p.x > W + 10) p.x = -10;
+        bctx.globalAlpha = p.a * Math.min(1, 0.5 + mAlpha * 0.5); bctx.beginPath(); bctx.arc(p.x, p.y, p.r, 0, 6.283); bctx.fill();
+      }
+      bctx.globalAlpha = 1;
+    }
+
+    let P = [], L = [], mode = "idle", tScale = 1, grow = false, beat = false, dAlpha = 1;
+    function sampleShape(kind, txt) {
+      off.width = W; off.height = H; octx.clearRect(0, 0, W, H); octx.fillStyle = "#fff";
+      if (kind === "heart") {
+        const s = Math.min(W, H) * 0.027; octx.beginPath();
+        for (let t = 0, first = true; t <= 6.31; t += 0.02, first = false) {
+          const x = 16 * Math.sin(t) ** 3, y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+          first ? octx.moveTo(W / 2 + x * s, H / 2 + y * s) : octx.lineTo(W / 2 + x * s, H / 2 + y * s);
+        }
+        octx.fill();
+      } else {
+        octx.textAlign = "center"; octx.textBaseline = "middle";
+        const fs = Math.min(H * 0.34, (W * 0.88) / (txt.length * 0.7));
+        octx.font = `800 ${fs}px "Arial Black", Impact, sans-serif`; octx.fillText(txt, W / 2, H / 2);
+      }
+      const step = W < 600 ? 5 : 7, d = octx.getImageData(0, 0, W, H).data, pts = [];
+      for (let y = 0; y < H; y += step) for (let x = 0; x < W; x += step) if (d[(y * W + x) * 4 + 3] > 128) pts.push([x, y, step]);
+      return pts;
+    }
+    function drawShapeParticles() {
+      if (P.length) {
+        if (mode === "hold" && grow) tScale += (1.12 - tScale) * 0.04;
+        if (mode === "hold" && beat) tScale = 1 + 0.05 * Math.sin(T * 9);
+        if (mode === "dissolve") dAlpha = Math.max(0, dAlpha - 0.045);
+        bctx.save(); bctx.translate(W / 2, H / 2); bctx.scale(tScale, tScale); bctx.translate(-W / 2, -H / 2);
+        bctx.globalAlpha = dAlpha; bctx.fillStyle = "#ff7ab8"; bctx.beginPath();
+        for (const p of P) {
+          if (mode === "form") { p.x += (p.tx - p.x) * 0.14; p.y += (p.ty - p.y) * 0.14; }
+          else if (mode === "hold") { p.x = p.tx + Math.sin(T * 3 + p.ty) * 1; p.y = p.ty + Math.cos(T * 3 + p.tx) * 1; }
+          else if (mode === "dissolve") { p.x += p.vx; p.y += p.vy; }
+          bctx.moveTo(p.x + p.r, p.y); bctx.arc(p.x, p.y, p.r, 0, 6.283);
+        }
+        bctx.fill(); bctx.restore();
+      }
+      bctx.fillStyle = "#ff8cc4";
+      for (let i = L.length - 1; i >= 0; i--) {
+        const q = L[i]; q.x += q.vx; q.y += q.vy; q.life -= 0.0065;
+        if (q.life <= 0) { L.splice(i, 1); continue; }
+        bctx.globalAlpha = q.life * 0.85; bctx.beginPath(); bctx.arc(q.x, q.y, q.r, 0, 6.283); bctx.fill();
+      }
+      bctx.globalAlpha = 1;
+    }
+
+    const items = []; const MAX_ITEMS = 320;
+    const roseSprite = (() => {
+      const c = document.createElement("canvas"); c.width = c.height = 72; const x = c.getContext("2d");
+      x.font = '56px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText("🌹", 36, 40); return c;
+    })();
+    function heartPath(ctx, s) {
+      ctx.beginPath(); ctx.moveTo(0, s * 0.3); ctx.bezierCurveTo(-s * 0.6, -s * 0.35, -s, s * 0.25, 0, s);
+      ctx.bezierCurveTo(s, s * 0.25, s * 0.6, -s * 0.35, 0, s * 0.3); ctx.closePath();
+    }
+    function push(o) { if (items.length < MAX_ITEMS) items.push(o); }
+    function spawnBurst(x, y, count = 18) {
+      if (!S.burst) return;
+      const palette = ["#ff69b4", "#ffd166", "#ff9ed2", "#c084fc", "#fff0f6"], shapes = ["rect", "heart", "petal"];
+      for (let i = 0; i < count; i++) {
+        const a = (6.283 * i) / count + (Math.random() - 0.5) * 0.4, sp = 1.8 + Math.random() * 4.5;
+        push({ t: shapes[i % 3], x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 1.5, g: 0.11, size: 5 + Math.random() * 6,
+          color: palette[i % 5], rot: Math.random() * 6.283, vr: (Math.random() - 0.5) * 0.16, life: 1, decay: 0.02 });
+      }
+    }
+    function roseBurst(x, y) {
+      for (let i = 0; i < 46; i++) {
+        const a = Math.random() * 6.283, sp = 4 + Math.random() * 11;
+        push({ t: "rose", x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 7, g: 0.2, size: 26 + Math.random() * 30,
+          rot: Math.random() * 6.283, vr: (Math.random() - 0.5) * 0.22, life: 1, decay: 0.0045 + Math.random() * 0.004 });
+      }
+      for (let i = 0; i < 60; i++) {
+        const a = Math.random() * 6.283, sp = 3 + Math.random() * 9;
+        push({ t: "petal", x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 6, g: 0.1, size: 8 + Math.random() * 8,
+          color: ["#e0245e", "#ff5c8a", "#ff9ec0", "#c2185b"][i % 4], rot: Math.random() * 6.283, vr: (Math.random() - 0.5) * 0.25, life: 1, decay: 0.005 + Math.random() * 0.004, sway: Math.random() * 6 });
+      }
+    }
+    let roseTimer = 0;
+    function roseRain(ms) {
+      clearInterval(roseTimer); const end = performance.now() + ms;
+      roseTimer = setInterval(() => {
+        if (performance.now() > end) { clearInterval(roseTimer); return; }
+        for (let i = 0; i < 2; i++) {
+          const rose = Math.random() < 0.4;
+          push({ t: rose ? "rose" : "petal", x: Math.random() * W, y: -30, vx: (Math.random() - 0.5) * 1.5, vy: 1 + Math.random() * 2, g: 0.02,
+            size: rose ? 22 + Math.random() * 20 : 8 + Math.random() * 7, color: ["#e0245e", "#ff5c8a", "#ff9ec0"][i % 3],
+            rot: Math.random() * 6.283, vr: (Math.random() - 0.5) * 0.1, life: 1, decay: 0.0025, sway: Math.random() * 6 });
+        }
+      }, 90);
+    }
+    function drawItems() {
+      kctx.clearRect(0, 0, W, H);
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i];
+        it.vy += it.g; it.x += it.vx + (it.sway !== undefined ? Math.sin(T * 3 + it.sway) * 0.6 : 0); it.y += it.vy; it.rot += it.vr; it.life -= it.decay;
+        if (it.t === "spark") { it.vx *= 0.96; it.vy *= 0.96; }
+        if (it.life <= 0 || it.y > H + 70) { items.splice(i, 1); continue; }
+        kctx.save(); kctx.globalAlpha = Math.max(0, Math.min(1, it.life * 2)); kctx.translate(it.x, it.y); kctx.rotate(it.rot);
+        if (it.t === "rose") kctx.drawImage(roseSprite, -it.size / 2, -it.size / 2, it.size, it.size);
+        else {
+          kctx.fillStyle = it.color;
+          if (it.t === "heart") { heartPath(kctx, it.size * 0.65); kctx.fill(); }
+          else if (it.t === "petal") { kctx.beginPath(); kctx.ellipse(0, 0, it.size * 0.7, it.size * 0.38, 0, 0, 6.283); kctx.fill(); }
+          else if (it.t === "spark") { kctx.beginPath(); kctx.arc(0, 0, it.size, 0, 6.283); kctx.fill(); }
+          else kctx.fillRect(-it.size / 2, -it.size / 3, it.size, it.size * 0.66);
+        }
+        kctx.restore();
+      }
+    }
+
+    function loop(ts) {
+      T = ts / 1000; bctx.clearRect(0, 0, W, H);
+      drawMatrix(); drawFloaters(); drawShapeParticles(); drawItems();
+      requestAnimationFrame(loop);
+    }
+    addEventListener("resize", resize); resize(); requestAnimationFrame(loop);
+
+    addEventListener("pointerdown", (e) => {
+      if (!started || e.target.closest("button, select, input, aside, .envelope, .cake-scene, .glass-card")) return;
+      spawnBurst(e.clientX, e.clientY, 16);
+    });
+    let lastSpark = 0;
+    addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse" || !started || !S.burst || reduceMotion) return;
+      const n = performance.now(); if (n - lastSpark < 45) return; lastSpark = n;
+      push({ t: "spark", x: e.clientX, y: e.clientY, vx: (Math.random() - 0.5) * 1.2, vy: Math.random() * 0.8, g: 0.02, size: 1.5 + Math.random() * 2,
+        color: Math.random() < 0.5 ? "#ffe599" : "#ff9ed2", rot: 0, vr: 0, life: 1, decay: 0.035 });
+    });
+
+    let runId = 0, envOpened = false;
+    const sleep = (ms, id) => new Promise((res, rej) => setTimeout(() => (id !== runId ? rej("abort") : res()), ms));
+    function setStage(name) {
+      ["gate", "intro", "envelopeStage", "celebrationScreen"].forEach((id) => $(id).classList.toggle("on", id === name));
+      $("skipBtn").style.display = (name === "intro" || name === "envelopeStage") ? "" : "none";
+      mTarget = name === "celebrationScreen" ? 0.38 : 1;
+    }
+    async function shape(kind, txt, id, sound) {
+      P = sampleShape(kind, txt).map(([tx, ty, st]) => ({ x: Math.random() * W, y: Math.random() * H, tx, ty, vx: 0, vy: 0, r: st * (0.32 + Math.random() * 0.14) }));
+      mode = "form"; dAlpha = 1; tScale = 1; grow = kind === "digit"; beat = kind === "heart"; if (sound) sound();
+      await sleep(650, id); mode = "hold"; await sleep(kind === "heart" ? 1500 : 650, id);
+      const keep = [];
+      for (const p of P) {
+        if (Math.random() < 0.38) {
+          L.push({ x: (p.x - W / 2) * tScale + W / 2, y: (p.y - H / 2) * tScale + H / 2, vx: (Math.random() - 0.5) * 0.7, vy: -0.1 - Math.random() * 0.5, r: p.r * 0.85, life: 0.9 + Math.random() * 0.3 });
+        } else { p.vx = (p.tx - W / 2) * 0.018 + (Math.random() - 0.5) * 3; p.vy = (p.ty - H / 2) * 0.018 + (Math.random() - 0.5) * 3; keep.push(p); }
+      }
+      P = keep; mode = "dissolve"; await sleep(520, id); P = []; mode = "idle";
+    }
+    async function runIntro() {
+      const id = ++runId; P = []; L = []; mode = "idle"; items.length = 0; clearInterval(roseTimer); envOpened = false;
+      $("envelope").classList.remove("open"); $("openGiftBtn").disabled = false; setStage("intro");
+      try {
+        await sleep(500, id);
+        for (let n = CONFIG.countdownSeconds; n >= 1; n--) await shape("digit", String(n), id, AudioFX.countdown);
+        for (const w of CONFIG.words) await shape("text", w, id, AudioFX.click);
+        await shape("heart", "", id, AudioFX.pageFlip);
+        await sleep(450, id); setStage("envelopeStage");
+      } catch (e) { if (e !== "abort") console.error(e); }
+    }
+    function openEnvelope() {
+      if (envOpened) return; envOpened = true; $("openGiftBtn").disabled = true;
+      const env = $("envelope"); env.classList.add("open"); AudioFX.open();
+      const id = runId;
+      setTimeout(() => { if (id !== runId) return; const r = env.getBoundingClientRect(); roseBurst(r.left + r.width / 2, r.top + r.height * 0.35); roseRain(3400); }, 520);
+      setTimeout(() => { if (id === runId) showCelebration(); }, 2300);
+    }
+    function showCelebration() {
+      runId++; P = []; mode = "idle"; setStage("celebrationScreen");
+      spawnBurst(W / 2, H * 0.3, 30); renderLetterPage(0, false);
+    }
+
+    (function () {
+      const now = new Date(); let y = now.getFullYear();
+      const bd = new Date(y, CONFIG.birthMonth - 1, CONFIG.birthDay, 23, 59);
+      if (now > bd) y++;
+      const d = new Date(y, CONFIG.birthMonth - 1, CONFIG.birthDay);
+      const names = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
+      $("dayLine").textContent = `🗓 ${names[d.getDay()]}, ${String(CONFIG.birthDay).padStart(2, "0")}/${String(CONFIG.birthMonth).padStart(2, "0")}/${y}`;
+    })();
+
+    let currentPage = 0, typer = 0, busy = false;
+    const letterCard = $("letterCard"), letterText = $("letterText"), dots = $("dots");
+    CONFIG.letterPages.forEach(() => dots.appendChild(document.createElement("i")));
+    function typeText(str) {
+      clearInterval(typer);
+      if (reduceMotion) { letterText.textContent = str; return; }
+      let n = 0; letterText.innerHTML = "";
+      const a = document.createElement("span"), b = document.createElement("span"); b.className = "rest"; letterText.append(a, b); b.textContent = str;
+      typer = setInterval(() => { n += 2; a.textContent = str.slice(0, n); b.textContent = str.slice(n); if (n >= str.length) clearInterval(typer); }, 22);
+    }
+    function renderLetterPage(index, animateFlip = true) {
+      const total = CONFIG.letterPages.length; currentPage = ((index % total) + total) % total;
+      const apply = () => {
+        $("pageIndicator").textContent = `Trang ${currentPage + 1} / ${total}`;
+        [...dots.children].forEach((d, i) => d.classList.toggle("on", i === currentPage));
+        typeText(CONFIG.letterPages[currentPage]);
+      };
+      if (!animateFlip) { apply(); return; }
+      if (busy) return; busy = true; AudioFX.pageFlip(); letterCard.classList.add("flipping");
+      setTimeout(() => { apply(); letterCard.classList.remove("flipping"); busy = false; }, 240);
+    }
+    $("prevPageBtn").onclick = () => renderLetterPage(currentPage - 1);
+    $("nextPageBtn").onclick = () => renderLetterPage(currentPage + 1);
+    addEventListener("keydown", (e) => {
+      if (!$("celebrationScreen").classList.contains("on")) return;
+      if (e.key === "ArrowLeft") renderLetterPage(currentPage - 1); if (e.key === "ArrowRight") renderLetterPage(currentPage + 1);
+    });
+    let sx = null;
+    letterCard.addEventListener("pointerdown", (e) => { sx = e.clientX; });
+    letterCard.addEventListener("pointerup", (e) => {
+      if (sx === null) return; const dx = e.clientX - sx; sx = null;
+      if (Math.abs(dx) > 60) renderLetterPage(currentPage + (dx < 0 ? 1 : -1));
+    });
+    const tilt = $("tilt");
+    $("bookWrapper").addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse" || reduceMotion) return;
+      const r = tilt.getBoundingClientRect(), nx = (e.clientX - r.left) / r.width - 0.5, ny = (e.clientY - r.top) / r.height - 0.5;
+      tilt.style.setProperty("--ry", nx * 9 + "deg"); tilt.style.setProperty("--rx", -ny * 9 + "deg");
+      letterCard.style.setProperty("--mx", e.clientX - r.left + "px"); letterCard.style.setProperty("--my", e.clientY - r.top + "px");
+    });
+    $("bookWrapper").addEventListener("pointerleave", () => { tilt.style.setProperty("--rx", "0deg"); tilt.style.setProperty("--ry", "0deg"); });
+
+    $("cakeScene").addEventListener("click", (e) => {
+      AudioFX.meow(); const el = $("cakeScene"); el.classList.remove("hop"); void el.offsetWidth; el.classList.add("hop");
+      const r = el.getBoundingClientRect();
+      for (let i = 0; i < 7; i++) push({ t: "heart", x: r.left + r.width * (0.25 + Math.random() * 0.5), y: r.top + r.height * 0.3, vx: (Math.random() - 0.5) * 2.4, vy: -2 - Math.random() * 2.5, g: -0.01,
+        size: 9 + Math.random() * 7, color: ["#ff69b4", "#ff9ed2", "#ffd166"][i % 3], rot: 0, vr: (Math.random() - 0.5) * 0.1, life: 1, decay: 0.012 });
+    });
+
+    /* ---------- Điều khiển ---------- */
+    $("gateBtn").onclick = () => {
+      started = true;
+      AudioFX.click();
+      syncMusic();          // phát nhạc lần đầu khi có tương tác
+      runIntro();
+    };
+    $("openGiftBtn").onclick = openEnvelope;
+    $("envelope").onclick = openEnvelope;
+    $("envelope").addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEnvelope(); } });
+    $("skipBtn").onclick = () => { showCelebration(); };
+    $("replayBtn").onclick = () => { $("settingsDrawer").classList.remove("open"); runIntro(); };
+    $("settingsBtn").onclick = () => $("settingsDrawer").classList.toggle("open");
+
+    const soundBtn = $("soundToggleBtn");
+    soundBtn.onclick = () => {
+      const next = !AudioFX.isEnabled(); AudioFX.setEnabled(next);
+      soundBtn.textContent = next ? "🔊 Âm thanh: Bật" : "🔇 Âm thanh: Tắt";
+      syncMusic();
+    };
+    $("matrixColorSelect").value = S.color;
+    $("matrixColorSelect").onchange = (e) => { S.color = e.target.value; saveS(); buildAtlas(); };
+    $("musicToggle").checked = S.music;
+    $("musicToggle").onchange = (e) => { S.music = e.target.checked; saveS(); syncMusic(); };
+    $("bookToggle").checked = S.book; $("bookWrapper").style.display = S.book ? "block" : "none";
+    $("bookToggle").onchange = (e) => { S.book = e.target.checked; saveS(); $("bookWrapper").style.display = S.book ? "block" : "none"; };
+    $("burstToggle").checked = S.burst; $("burstToggle").onchange = (e) => { S.burst = e.target.checked; saveS(); };
+  </script>
 </body>
 </html>
